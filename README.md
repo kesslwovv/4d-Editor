@@ -25,6 +25,31 @@ see the LICENSE file for license
 
 this also uses 3rd party Libraries (in the Externals folder). Their licenses are placed in their respective directories
 
+# using the Editor
+
+## Controls
+
+**moving and rotating is done relative to the camera**
+
+use Q W E R A S D F to move around:
+
++ A-D: left - right
++ Q-E: up - down
++ W-S: forward - backward
++ R-F: ana - kata
+
+use SPACE + mouse to rotate:
+
+- SPACE + mouse (regular 3d controls):
+    - horizontal: visible horizonatal plane ("xz")
+    - vertical: visible vertical plane ("yz")
+    
+- SPACE + mouse + click:
+    - horizontal: invisible horizontal plane ("xw")
+    - vertical: invisible vertical plane ("yw")
+
+the "xy" and "zw" planes cannot be rotated right now.
+
 
  ## Editing
 
@@ -42,9 +67,9 @@ it is built on the DearImGui Library using the FileDialog widget provided by <ht
 
 ## Textures and UVs
 
-you can load textures from the GUI.
-you can also load UV coordinates or colordata from the GUI.
-use the `clear texture` button to clear the texture and use the UV coords as colordata instead
+you can load textures from the GUI.  
+you can also load UV coordinates or colordata from the GUI.  
+use the `clear texture` button to clear the texture and use the UV coords as colordata instead  
 
 ## Known Issues
 
