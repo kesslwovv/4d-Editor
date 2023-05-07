@@ -92,7 +92,9 @@ c lines:
 ```
 
 </td>
+  
 <td>
+  
 ```
 number of vertecies  
 number of edges  
