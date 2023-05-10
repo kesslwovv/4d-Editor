@@ -13,10 +13,12 @@ extern path executable;
 path abspath(const path& relpath)
 {
     path res = executable;
-    res /= (relpath);
-//    printf("executable: %s\n", executable.c_str());
-//    printf("relpath: %s\n", relpath.c_str());
-//    printf("filename: %s\n", res.c_str());
+    res /= relpath;
+#if DEBUG_FILE_LOAD
+    printf("executable: %s\n", executable.c_str());
+    printf("relpath: %s\n", relpath.c_str());
+    printf("filename: %s\n", res.c_str());
+#endif
     return res;
 }
 
@@ -43,7 +45,8 @@ string readFile(path relpath)
     printf("the following path could not be opened: %s\n", filename);
     printf("errno: %d\n", errno);
     perror("error message");
-    throw(errno);
+//    throw(errno);
+    return "";
 }
 
 
