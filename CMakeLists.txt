@@ -4,6 +4,9 @@ cmake_minimum_required(VERSION 3.10)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
+# set output to be in the main directory
+set (CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR})
+
 project(editor)
 
 file(GLOB_RECURSE cxx_sources 4d\ Object\ Editor/*.cpp)
@@ -26,8 +29,11 @@ include_directories(SYSTEM ${CMAKE_SOURCE_DIR}/Externals/json)
 
 add_executable(editor ${cxx_sources} ${cxx_external_sources} ${c_external_sources})
 
-target_link_libraries(editor ${CMAKE_SOURCE_DIR}/Externals/glfw/libglfw3.a)
-
+if (WIN32) 
+target_link_libraries(editor ${CMAKE_SOURCE_DIR}/Externals/glfw/win/libglfw3.a)
+else()
+target_link_libraries(editor ${CMAKE_SOURCE_DIR}/Externals/glfw/macos/libglfw3.a)
+endif()
 
 if (APPLE)
 
@@ -58,5 +64,5 @@ target_link_libraries(editor ${FOUNDATION})
 target_link_libraries(editor ${CORE_GRAPHICS})
 target_link_libraries(editor ${IO_KIT})
 
-endif() # APPLE
 
+endif() # APPLE

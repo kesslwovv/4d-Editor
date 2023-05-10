@@ -27,6 +27,8 @@
 #define PATH_REC "../../../../4d Object Editor/Resources/"
 #endif
 
+#define DEBUG_FILE_LOAD 0
+
 using std::string;
 using std::filesystem::path;
 

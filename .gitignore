@@ -1,3 +1,7 @@
 
 .DS_Store
 build/
+editor
+editor.exe
+opengl32.dll
+

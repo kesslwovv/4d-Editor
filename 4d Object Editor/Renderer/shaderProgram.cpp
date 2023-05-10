@@ -10,6 +10,15 @@
 
 Program::Program(const char* vertexFile, const char* fragmentFile, const char* geometryFile)
 {
+	
+#if DEBUG_FILE_LOAD
+	printf("vertexFile: %s\n", vertexFile);
+	printf("fragmentFile: %s\n", fragmentFile);
+	
+	path p = vertexFile;
+	std::cout << p << '\n';
+	printf("v: %s\n", p.c_str());
+#endif
     // vertex shader
     string vertexString = readFile(vertexFile);
 //    if (vertexString.size() == 0) {
