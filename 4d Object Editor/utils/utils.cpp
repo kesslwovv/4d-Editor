@@ -12,21 +12,29 @@ extern path executable;
 
 path abspath(const path& relpath)
 {
-    path res = executable;
-    res /= relpath;
+    path res = executable / relpath;
 #if DEBUG_FILE_LOAD
     printf("executable: %s\n", executable.c_str());
+	std::cout << executable << std::endl;
     printf("relpath: %s\n", relpath.c_str());
+	std::cout << relpath << std::endl;
     printf("filename: %s\n", res.c_str());
+	std::cout << res << std::endl;
 #endif
     return res;
 }
 
 string readFile(path relpath)
 {
+#if DEBUG_FILE_LOAD
+    printf("load: %s\n", relpath.c_str());
+#endif
     path filepath = abspath(relpath);
-//    printf("path: %s\n", filepath.c_str());
-    const char* filename = (char*)filepath.c_str();
+#if DEBUG_FILE_LOAD
+    printf("path: %s\n", filepath.c_str());
+    printf("load: %s\n", relpath.c_str());
+#endif
+    const path::value_type* filename = filepath.c_str();
     
 //    printf("filepath \"%s\" exists?: %d\n", filename, std::filesystem::exists(filepath));
 

@@ -128,7 +128,9 @@ int main(int argc, const char* argv[])
 //    timer::timerLookup = std::unordered_map<std::string, timer*>();
     std::cout << argv[0] << std::endl;
     executable = std::filesystem::path(argv[0]).parent_path();
-    
+	
+    std::cout << "execution location: " << executable << std::endl;
+
     // Initialize GLFW
     glfwInit();
 
