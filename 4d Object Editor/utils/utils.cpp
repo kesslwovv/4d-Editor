@@ -26,7 +26,7 @@ string readFile(path relpath)
 {
     path filepath = abspath(relpath);
 //    printf("path: %s\n", filepath.c_str());
-    const char* filename = filepath.c_str();
+    const char* filename = (char*)filepath.c_str();
     
 //    printf("filepath \"%s\" exists?: %d\n", filename, std::filesystem::exists(filepath));
 
