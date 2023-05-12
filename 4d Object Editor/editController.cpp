@@ -177,9 +177,9 @@ void EditController::updateInput(GLFWwindow *window) {
     _input.mousePressed = glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT);
     _input.mousePressedRight = glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_RIGHT);
     _input.keyControl = glfwGetKey(window, GLFW_KEY_LEFT_CONTROL)
-    or glfwGetKey(window, GLFW_KEY_RIGHT_CONTROL);
+    || glfwGetKey(window, GLFW_KEY_RIGHT_CONTROL);
     _input.keyAlt = glfwGetKey(window, GLFW_KEY_LEFT_ALT)
-    or glfwGetKey(window, GLFW_KEY_RIGHT_ALT);
+    || glfwGetKey(window, GLFW_KEY_RIGHT_ALT);
     _input.keyComma = glfwGetKey(window, GLFW_KEY_COMMA);
     _input.keyPeriod = glfwGetKey(window, GLFW_KEY_PERIOD);
     _input.keySlash = glfwGetKey(window, GLFW_KEY_SLASH);

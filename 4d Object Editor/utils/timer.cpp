@@ -23,33 +23,16 @@ timer* timer::getByName(const char* name)
 
 void timer::showAll()
 {
-    timer* arr[timerLookup.size()];
-    int idx = 0;
-    for (auto& element : timerLookup) {
-        arr[idx] = element.second;
-        idx++;
-    }
-    idx = 0;
-    while (idx != timerLookup.size()-1)
-    {
-        if (idx < 0)
-            idx = 0;
-        if (arr[idx]->total < arr[idx+1]->total) {
-            timer* t = arr[idx];
-            arr[idx] = arr[idx+1];
-            arr[idx+1] = t;
-            idx--;
-        } else {
-            idx++;
-        }
-    }
-    for (int i = 0; i < timerLookup.size(); i++) {
-        arr[i]->printAvg();
+    std::vector<timer*> sorted = orderedTimers();
+    for (int i = 0; i < sorted.size(); i++) {
+        sorted[i]->printAvg();
     }
 }
 
 std::vector<timer*> timer::orderedTimers()
 {
+    // custom sort
+    // TODO: replace by std::sort
     std::vector<timer*> arr(timerLookup.size());
     int idx = 0;
     for (auto& element : timerLookup) {

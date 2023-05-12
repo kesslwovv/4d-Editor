@@ -19,6 +19,7 @@
 #include <sstream>
 #include <vector>
 #include <tuple>
+#include <math.h>
 
 #define BYTES_PER_VERTEX 16
 #define BYTES_PER_COLOR 16
