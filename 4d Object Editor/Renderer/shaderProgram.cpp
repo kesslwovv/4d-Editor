@@ -86,12 +86,11 @@ Program::Program(const char* vertexFile, const char* fragmentFile, const char* g
     glGetProgramiv(program, GL_LINK_STATUS, &isLinked);
     if (isLinked == GL_FALSE)
     {
-        GLint maxLength = 0;
-        glGetProgramiv(program, GL_INFO_LOG_LENGTH, &maxLength);
+        GLint maxLength = ERROR_LOG_LENGTH;
 
         // The maxLength includes the NULL character
-        GLchar infoLog[maxLength];
-        glGetProgramInfoLog(program, maxLength, &maxLength, &infoLog[0]);
+        GLchar infoLog[ERROR_LOG_LENGTH];
+        glGetProgramInfoLog(program, maxLength, &maxLength, infoLog);
         
         std::cout << "program failed to link:\n" << infoLog << std::endl;
     }

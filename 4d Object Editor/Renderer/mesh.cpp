@@ -143,7 +143,7 @@ void Mesh::loadGeometryBIN(const std::filesystem::path &absolute) {
     
     if (!file) {
         printf("file failed to open: %s\n", absolute.c_str());
-        printf("message: %s\n", strerror(errno));
+        printf("errno: %d\n", errno);
         return;
     }
     
