@@ -19,6 +19,9 @@
 #include <sstream>
 #include <vector>
 #include <tuple>
+
+// necessary for VS 2019
+#define _USE_MATH_DEFINES
 #include <math.h>
 
 #define BYTES_PER_VERTEX 16
