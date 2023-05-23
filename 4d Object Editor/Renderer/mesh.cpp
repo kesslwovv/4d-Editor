@@ -164,10 +164,10 @@ void Mesh::loadGeometryBIN(const std::filesystem::path &absolute) {
     _triangles.resize(_triangle_count*3);
     _tetrahedra.resize(_tetrahedra_count*4);
     
-    file.read((char*)&_vertecies[0], _vertex_count*BYTES_PER_VERTEX);
-    file.read((char*)&_edges[0], _edge_count*BYTES_PER_EDGE);
-    file.read((char*)&_triangles[0], _triangle_count*BYTES_PER_TRIANGLE);
-    file.read((char*)&_tetrahedra[0], _tetrahedra_count*BYTES_PER_TETRAHEDRON);
+    file.read((char*)_vertecies.data(), _vertex_count*BYTES_PER_VERTEX);
+    file.read((char*)_edges.data(), _edge_count*BYTES_PER_EDGE);
+    file.read((char*)_triangles.data(), _triangle_count*BYTES_PER_TRIANGLE);
+    file.read((char*)_tetrahedra.data(), _tetrahedra_count*BYTES_PER_TETRAHEDRON);
 
 }
 
@@ -221,10 +221,10 @@ Mesh::Mesh(size_t vertCnt, size_t edgeCnt, size_t faceCnt, size_t tetraCnt,
         memcpy(&_colors[0], color, _vertex_count*BYTES_PER_COLOR);
     }
     
-    if (verts != nullptr) { memcpy(&_vertecies[0], verts, _vertex_count*BYTES_PER_VERTEX);}
-    if (edges != nullptr) { memcpy(&_edges[0], edges, _edge_count*BYTES_PER_EDGE);}
-    if (faces != nullptr) { memcpy(&_triangles[0], faces, _triangle_count*BYTES_PER_TRIANGLE);}
-    if (tetra != nullptr) { memcpy(&_tetrahedra[0], tetra, _tetrahedra_count*BYTES_PER_TETRAHEDRON);}
+    if (verts != nullptr) { memcpy(_vertecies.data(), verts, _vertex_count*BYTES_PER_VERTEX);}
+    if (edges != nullptr) { memcpy(_edges.data(), edges, _edge_count*BYTES_PER_EDGE);}
+    if (faces != nullptr) { memcpy(_triangles.data(), faces, _triangle_count*BYTES_PER_TRIANGLE);}
+    if (tetra != nullptr) { memcpy(_tetrahedra.data(), tetra, _tetrahedra_count*BYTES_PER_TETRAHEDRON);}
     
     if (buildSettings == BuildTime::immediate) {
         buildRenderObjects();
@@ -286,7 +286,7 @@ void Mesh::buildRenderObjects()
     // init vertex/color buffers
     glBindBuffer(GL_ARRAY_BUFFER, VBO);
     START_TIMER("vbo buffer");
-    glBufferData(GL_ARRAY_BUFFER, _vertex_count*BYTES_PER_VERTEX, &_vertecies[0], GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, _vertex_count*BYTES_PER_VERTEX, _vertecies.data(), GL_STATIC_DRAW);
     END_TIMER("vbo buffer");
 
     glBindBuffer(GL_ARRAY_BUFFER, colorVBO);
@@ -311,7 +311,7 @@ void Mesh::buildRenderObjects()
 
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, edgeVEO);
     START_TIMER("edge buffer");
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, _edge_count * BYTES_PER_EDGE, &_edges[0], GL_STATIC_DRAW);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, _edge_count * BYTES_PER_EDGE, _edges.data(), GL_STATIC_DRAW);
     END_TIMER("edge buffer");
     
     glBindBuffer(GL_ARRAY_BUFFER, VBO);
@@ -329,7 +329,7 @@ void Mesh::buildRenderObjects()
 
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, triangleVEO);
     START_TIMER("triangle buffer");
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, _triangle_count * BYTES_PER_TRIANGLE, &_triangles[0], GL_STATIC_DRAW);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, _triangle_count * BYTES_PER_TRIANGLE, _triangles.data(), GL_STATIC_DRAW);
     END_TIMER("triangle buffer");
     
     glBindBuffer(GL_ARRAY_BUFFER, VBO);
@@ -347,7 +347,7 @@ void Mesh::buildRenderObjects()
 
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, tetrahedraVEO);
     START_TIMER("tetra buffer");
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, _tetrahedra_count * BYTES_PER_TETRAHEDRON, &_tetrahedra[0], GL_STATIC_DRAW);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, _tetrahedra_count * BYTES_PER_TETRAHEDRON, _tetrahedra.data(), GL_STATIC_DRAW);
     END_TIMER("tetra buffer");
     
     glBindBuffer(GL_ARRAY_BUFFER, VBO);
@@ -480,10 +480,10 @@ void Mesh::reloadVBO()
 {
     glBindBuffer(GL_ARRAY_BUFFER, VBO);
     if (_vertecies.size() == _vertex_count) {
-        glBufferSubData(GL_ARRAY_BUFFER, 0, _vertex_count*BYTES_PER_VERTEX, (void*)&_vertecies[0]);
+        glBufferSubData(GL_ARRAY_BUFFER, 0, _vertex_count*BYTES_PER_VERTEX, (void*)_vertecies.data());
     } else {
         _vertex_count = _vertecies.size();
-        glBufferData(GL_ARRAY_BUFFER, _vertex_count*BYTES_PER_VERTEX, (void*)&_vertecies[0], GL_STATIC_DRAW);
+        glBufferData(GL_ARRAY_BUFFER, _vertex_count*BYTES_PER_VERTEX, (void*)_vertecies.data(), GL_STATIC_DRAW);
 
     }
     glBindBuffer(GL_ARRAY_BUFFER, 0);
@@ -495,10 +495,10 @@ void Mesh::reloadEdges()
     glBindVertexArray(edgeVAO);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, edgeVEO);
     if (_edges.size() == _edge_count * 2) {
-        glBufferSubData(GL_ELEMENT_ARRAY_BUFFER, 0, _edge_count*BYTES_PER_EDGE, (void*)&_edges[0]);
+        glBufferSubData(GL_ELEMENT_ARRAY_BUFFER, 0, _edge_count*BYTES_PER_EDGE, (void*)_edges.data());
     } else {
         _edge_count = _edges.size() / 2;
-        glBufferData(GL_ELEMENT_ARRAY_BUFFER, _edge_count*BYTES_PER_EDGE, (void*)&_edges[0], GL_STATIC_DRAW);
+        glBufferData(GL_ELEMENT_ARRAY_BUFFER, _edge_count*BYTES_PER_EDGE, (void*)_edges.data(), GL_STATIC_DRAW);
     }
     checkError();
     glBindVertexArray(0);
@@ -511,10 +511,10 @@ void Mesh::reloadFaces()
     glBindVertexArray(triangleVAO);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, triangleVEO);
     if (_triangles.size() == _triangle_count * 3) {
-        glBufferSubData(GL_ELEMENT_ARRAY_BUFFER, 0, _triangle_count*BYTES_PER_TRIANGLE, (void*)&_triangles[0]);
+        glBufferSubData(GL_ELEMENT_ARRAY_BUFFER, 0, _triangle_count*BYTES_PER_TRIANGLE, (void*)_triangles.data());
     } else {
         _triangle_count = _triangles.size() / 3;
-        glBufferData(GL_ELEMENT_ARRAY_BUFFER, _triangle_count*BYTES_PER_TRIANGLE, (void*)&_triangles[0], GL_STATIC_DRAW);
+        glBufferData(GL_ELEMENT_ARRAY_BUFFER, _triangle_count*BYTES_PER_TRIANGLE, (void*)_triangles.data(), GL_STATIC_DRAW);
     }
     glBindVertexArray(0);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
@@ -526,10 +526,10 @@ void Mesh::reloadCells()
     glBindVertexArray(tetrahedraVAO);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, tetrahedraVEO);
     if (_tetrahedra.size() == _tetrahedra_count * 4) {
-        glBufferSubData(GL_ELEMENT_ARRAY_BUFFER, 0, _tetrahedra_count*BYTES_PER_TETRAHEDRON, (void*)&_tetrahedra[0]);
+        glBufferSubData(GL_ELEMENT_ARRAY_BUFFER, 0, _tetrahedra_count*BYTES_PER_TETRAHEDRON, (void*)_tetrahedra.data());
     } else {
         _tetrahedra_count = _tetrahedra.size() / 4;
-        glBufferData(GL_ELEMENT_ARRAY_BUFFER, _tetrahedra_count*BYTES_PER_TETRAHEDRON, (void*)&_tetrahedra[0], GL_STATIC_DRAW);
+        glBufferData(GL_ELEMENT_ARRAY_BUFFER, _tetrahedra_count*BYTES_PER_TETRAHEDRON, (void*)_tetrahedra.data(), GL_STATIC_DRAW);
     }
     checkError();
     glBindVertexArray(0);
