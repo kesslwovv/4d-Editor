@@ -30,8 +30,13 @@ include_directories(SYSTEM ${CMAKE_SOURCE_DIR}/Externals/json)
 add_executable(editor ${cxx_sources} ${cxx_external_sources} ${c_external_sources})
 
 if (WIN32) 
-# target_link_libraries(editor ${CMAKE_SOURCE_DIR}/Externals/glfw/win/libglfw3.a)
+
+if(MINGW)
+target_link_libraries(editor ${CMAKE_SOURCE_DIR}/Externals/glfw/win/libglfw3.a)
+else()
 target_link_libraries(editor ${CMAKE_SOURCE_DIR}/Externals/glfw/win/glfw3.lib)
+endif()  # MINGW
+
 else()
 target_link_libraries(editor ${CMAKE_SOURCE_DIR}/Externals/glfw/macos/libglfw3.a)
 endif()
